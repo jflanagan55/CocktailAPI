@@ -1,27 +1,55 @@
 const baseIngredientURL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='
 const nameIngredientURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+const displayBody = document.querySelector('#displayBody')
 
-async function fetchRandomCocktail(){
-    await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
+ function fetchRandomCocktail(){
+     fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
     .then(res => res.json())
     .then(data => console.log(data));
 }
 
-async function fetchCocktailByIngredient(){
-    const ingInput = await document.querySelector('#ingredientInput').value
-    await fetch(`${baseIngredientURL}${ingInput}`)
+ function fetchCocktailByIngredient(){
+    const ingInput = document.querySelector('#ingredientInput').value
+     return fetch(`${baseIngredientURL}${ingInput}`)
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => { return data});
 }
 
-async function fetchCocktailByName(){
-    const nameInput = await document.querySelector('#nameInput').value
-    await fetch(`${nameIngredientURL}${nameInput}`)
+ function fetchCocktailByName(){
+    const nameInput = document.querySelector('#nameInput').value
+     return fetch(`${nameIngredientURL}${nameInput}`)
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => {return data});
 }
 
 const ingSearchButton = document.querySelector('#ingSearchButton')
-ingSearchButton.addEventListener('click',fetchCocktailByIngredient)
-nameSearchButton.addEventListener('click',fetchCocktailByName)
+ingSearchButton.addEventListener('click',ingredientResults)
+nameSearchButton.addEventListener('click',nameResults)
+
+async function ingredientResults(){
+    clearDisplayBody();
+    const data = await fetchCocktailByIngredient();
+    const results = data.drinks;
+    results.forEach(drink => {
+        let drinkOption = document.createElement('button')
+        drinkOption.innerText = drink.strDrink
+        displayBody.append(drinkOption)
+    })
+    
+
+}
+async function nameResults(){
+    const data = await fetchCocktailByName();
+    const results = data.drinks;
+    results.forEach(drink => console.log(drink.strDrink))
+    
+    
+
+}
+
+function clearDisplayBody (){
+    while (displayBody.firstChild) {
+        displayBody.removeChild(displayBody.firstChild);
+    }
+}
 
