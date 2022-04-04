@@ -5,7 +5,7 @@ const displayBody = document.querySelector('#displayBody')
  function fetchRandomCocktail(){
      fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
     .then(res => res.json())
-    .then(data => console.log(data));
+    .then(data => displayDrinkInfo(data));
 }
 
  function fetchCocktailByIngredient(){
@@ -24,7 +24,10 @@ const displayBody = document.querySelector('#displayBody')
 
 const ingSearchButton = document.querySelector('#ingSearchButton')
 ingSearchButton.addEventListener('click',ingredientResults)
+const nameSearchButton = document.querySelector('#nameSearchButton')
 nameSearchButton.addEventListener('click',nameResults)
+const randomCocktailBtn = document.querySelector('#randomCocktailBtn')
+randomCocktailBtn.addEventListener('click', fetchRandomCocktail)
 
 async function ingredientResults(){
     clearDisplayBody();
@@ -32,8 +35,15 @@ async function ingredientResults(){
     const results = data.drinks;
     results.forEach(drink => {
         let drinkOption = document.createElement('button')
+        drinkOption.classList.add('drinkOptionBtn')
         drinkOption.innerText = drink.strDrink
         displayBody.append(drinkOption)
+        drinkOption.addEventListener('click',()=>{
+            displayDrinkInfoHelper(drink.idDrink)}
+            
+        )
+        
+        
     })
     
 
@@ -41,7 +51,19 @@ async function ingredientResults(){
 async function nameResults(){
     const data = await fetchCocktailByName();
     const results = data.drinks;
-    results.forEach(drink => console.log(drink.strDrink))
+    results.forEach(drink => {
+        let drinkOption = document.createElement('button')
+        drinkOption.classList.add('drinkOptionBtn')
+        drinkOption.innerText = drink.strDrink
+        displayBody.append(drinkOption)
+        drinkOption.addEventListener('click',()=>{
+            displayDrinkInfoHelper(drink.idDrink)}
+            
+        )
+        
+        
+    })
+    
     
     
 
@@ -53,3 +75,54 @@ function clearDisplayBody (){
     }
 }
 
+
+
+function displayDrinkInfoHelper(drink){
+    return fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${drink}`)
+    .then(res => res.json())
+    .then(data=>displayDrinkInfo(data))
+    
+}
+function displayDrinkInfo(drink){
+    clearDisplayBody()
+    const drinkInfo = drink.drinks[0]
+    const drinkTitle = document.createElement('h2')
+    drinkTitle.innerText = drinkInfo.strDrink
+    displayBody.append(drinkTitle)
+
+    const drinkImg = document.createElement('img')
+    drinkImg.src = drinkInfo.strDrinkThumb
+    displayBody.append(drinkImg)
+
+    const ingredientList = document.createElement('ul');
+    ingredientList.innerText = "Ingredients"
+    displayBody.append(ingredientList);
+
+    for(let i =1; i < 15; i++){
+      if(drinkInfo[`strIngredient${i}`] === null){
+        break;
+      }
+      else{
+        if(drinkInfo[`strMeasure${i}`] === null){
+          let li = document.createElement('li');
+          li.innerText = drinkInfo[`strIngredient${i}`];
+          ingredientList.append(li);
+        }
+        else{
+          let li = document.createElement('li');
+          let measure = drinkInfo[`strMeasure${i}`]
+          let ingredient = drinkInfo[`strIngredient${i}`]
+          li.innerText = `${measure} ${ingredient}`
+          ingredientList.append(li);
+          
+        }
+    }
+    }
+    const instructionsHeader = document.createElement('h3')
+    instructionsHeader.innerText = "Instructions"
+    displayBody.append(instructionsHeader) 
+
+    const drinkInstructions = document.createElement('p')
+    drinkInstructions.innerText = drinkInfo.strInstructions
+    displayBody.append(drinkInstructions)
+}
