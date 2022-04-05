@@ -5,21 +5,24 @@ const displayBody = document.querySelector('#displayBody')
  function fetchRandomCocktail(){
      fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php')
     .then(res => res.json())
-    .then(data => displayDrinkInfo(data));
+    .then(data => displayDrinkInfo(data))
+    .catch(errorHandler)
 }
 
  function fetchCocktailByIngredient(){
     const ingInput = document.querySelector('#ingredientInput').value
      return fetch(`${baseIngredientURL}${ingInput}`)
     .then(res => res.json())
-    .then(data => { return data});
+    .then(data => { return data})
+    .catch(errorHandler)
 }
 
  function fetchCocktailByName(){
     const nameInput = document.querySelector('#nameInput').value
      return fetch(`${nameIngredientURL}${nameInput}`)
     .then(res => res.json())
-    .then(data => {return data});
+    .then(data => {return data})
+    .catch(errorHandler)
 }
 
 const ingSearchButton = document.querySelector('#ingSearchButton')
@@ -34,10 +37,14 @@ async function ingredientResults(){
     const data = await fetchCocktailByIngredient();
     const results = data.drinks;
     results.forEach(drink => {
-        let drinkOption = document.createElement('button')
-        drinkOption.classList.add('drinkOptionBtn')
+        let drinkDiv = document.createElement('div')
+        drinkDiv.classList.add('drinkDiv')
+
+        let drinkOption = document.createElement('h3')
+        drinkOption.classList.add('drinkOptionLink')
         drinkOption.innerText = drink.strDrink
-        displayBody.append(drinkOption)
+        drinkDiv.append(drinkOption)
+        displayBody.append(drinkDiv)
         drinkOption.addEventListener('click',()=>{
             displayDrinkInfoHelper(drink.idDrink)}
             
@@ -45,17 +52,21 @@ async function ingredientResults(){
         
         
     })
-    
+    resetInputBoxes();
 
 }
 async function nameResults(){
+    clearDisplayBody();
     const data = await fetchCocktailByName();
     const results = data.drinks;
     results.forEach(drink => {
-        let drinkOption = document.createElement('button')
-        drinkOption.classList.add('drinkOptionBtn')
+        let drinkDiv = document.createElement('div')
+
+        let drinkOption = document.createElement('h3')
+        drinkOption.classList.add('drinkOptionLink')
         drinkOption.innerText = drink.strDrink
-        displayBody.append(drinkOption)
+        drinkDiv.append(drinkOption)
+        displayBody.append(drinkDiv)
         drinkOption.addEventListener('click',()=>{
             displayDrinkInfoHelper(drink.idDrink)}
             
@@ -64,7 +75,7 @@ async function nameResults(){
         
     })
     
-    
+    resetInputBoxes();
     
 
 }
@@ -85,6 +96,7 @@ function displayDrinkInfoHelper(drink){
 }
 function displayDrinkInfo(drink){
     clearDisplayBody()
+    resetInputBoxes()
     const drinkInfo = drink.drinks[0]
     const drinkTitle = document.createElement('h2')
     drinkTitle.innerText = drinkInfo.strDrink
@@ -125,4 +137,21 @@ function displayDrinkInfo(drink){
     const drinkInstructions = document.createElement('p')
     drinkInstructions.innerText = drinkInfo.strInstructions
     displayBody.append(drinkInstructions)
+}
+
+function resetInputBoxes(){
+    let ingSearch = document.querySelector('#ingredientInput')
+    let nameSearch = document.querySelector('#nameInput')
+    ingSearch.value = ""
+    nameSearch.value = ""
+}
+
+function errorHandler(){
+    let resultsHeader = document.createElement('h2')
+    resultsHeader.innerText = "Results"
+
+    let errorMessage = document.createElement('p')
+    errorMessage.innerText = "Sorry no results, please try again!"
+
+    displayBody.append(resultsHeader,errorMessage)
 }

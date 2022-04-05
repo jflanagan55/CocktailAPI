@@ -5,21 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="index.js" defer></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Cocktail App</title>
 </head>
 <body>
-    <h1>fbsjkl</h1>
-        
-    <label for="ingredientInput">Search By Ingredient</label>
-    <input type = text id="ingredientInput"/>
-    <button id="ingSearchButton">Go</button>
+    <h1>Cocktail Finder</h1>
+    <main>
+        <section>
+            <div>
+                <label for="ingredientInput">Search By Ingredient</label>
+                <input type = text id="ingredientInput"/>
+                <button id="ingSearchButton">Go</button>
+            </div>
 
-    <label for="nameInput">Search Cocktail by Name</label>
-    <input type="text" id="nameInput">
-    <button id="nameSearchButton">Go</button>
+            <div>
+                <label for="nameInput">Search Cocktail by Name</label>
+                <input type="text" id="nameInput">
+                <button id="nameSearchButton">Go</button>
+            </div>
+            <div>
+                <button id="randomCocktailBtn">Random Cocktail</button>
+            </div>
+        </section>
 
-    <button id="randomCocktailBtn">Random Cocktail</button>
-
-    <div id="displayBody"></div>
+        <div id="displayBody"></div>
+    </main> 
 </body>
 </html>

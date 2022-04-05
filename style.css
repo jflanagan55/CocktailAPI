@@ -1,0 +1,33 @@
+.drinkDiv{
+    background-color: aquamarine;
+}
+
+main{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding:2rem;
+}
+
+h1{
+    padding:2rem;
+}
+
+.drinkOptionLink{
+    text-align: center;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap:2rem;
+}
+
+@media(max-width: 600px){
+    main{
+        display:grid;
+        grid-template-columns: 1fr;
+        padding:2rem;
+
+    }
+}
+
