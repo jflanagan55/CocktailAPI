@@ -61,6 +61,7 @@ async function nameResults(){
     const results = data.drinks;
     results.forEach(drink => {
         let drinkDiv = document.createElement('div')
+        drinkDiv.classList.add('drinkDiv')
 
         let drinkOption = document.createElement('h3')
         drinkOption.classList.add('drinkOptionLink')

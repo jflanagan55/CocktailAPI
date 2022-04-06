@@ -1,15 +1,26 @@
+*{
+    font-family: 'Mali', cursive;
+    background-color: #cac2b5;
+    color:black;
+}
+
 .drinkDiv{
-    background-color: aquamarine;
 }
 
 main{
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     padding:2rem;
+    
 }
 
-h1{
+
+
+#header{
     padding:2rem;
+    margin-bottom: 0;
+    font-weight: 700;
+
 }
 
 .drinkOptionLink{
@@ -22,7 +33,7 @@ section {
     gap:2rem;
 }
 
-@media(max-width: 600px){
+@media(max-width: 1050px){
     main{
         display:grid;
         grid-template-columns: 1fr;
@@ -31,3 +42,55 @@ section {
     }
 }
 
+#displayBody {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    justify-content: center;
+    max-height:600px; 
+    overflow-y:scroll;
+    border-radius: 1rem;
+}
+#displayBody >*{
+    background-color: #3c474b;
+}
+#displayBody >*>*{
+    background-color: #3c474b;
+}
+
+img{
+    max-width:400px;
+
+}
+
+li {
+    list-style-type: none;
+}
+
+.searchContainer{
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    
+
+}
+
+#randomCocktailBtn{
+    margin-top: 2rem;    
+}
+
+label{
+    font-size:1.5rem;
+    font-weight:500;
+}
+
+input{
+    background-color: white;
+}
+
+h3{
+    color:white;
+}
+h3:hover{
+    background-color: blue;
+}
