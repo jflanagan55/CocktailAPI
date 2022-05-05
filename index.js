@@ -39,8 +39,27 @@ function fetchCocktailByName(){
 
 const ingSearchButton = document.querySelector('#ingSearchButton')
 ingSearchButton.addEventListener('click',ingredientResults)
+
+const ingInput = document.querySelector('#ingredientInput')
+ingInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.querySelector("#ingSearchButton").click();
+    }
+  })
+
+
 const nameSearchButton = document.querySelector('#nameSearchButton')
 nameSearchButton.addEventListener('click',nameResults)
+
+const nameInput = document.querySelector('#nameInput')
+nameInput.addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      document.querySelector("#nameSearchButton").click();
+    }
+  })
+
 const randomCocktailBtn = document.querySelector('#randomCocktailBtn')
 randomCocktailBtn.addEventListener('click', fetchRandomCocktail)
 
@@ -95,14 +114,10 @@ async function nameResults(){
         drinkDiv.addEventListener('click',()=>{
             displayDrinkInfoHelper(drink.idDrink)}
             
-        )
-        
-        
+        )     
     })
     }
     resetInputBoxes();
-    
-
 }
 
 function clearDisplayBody (){
