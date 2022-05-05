@@ -41,6 +41,17 @@ section {
 
     }
 }
+@media(max-width: 470px){
+    main{
+        display:grid;
+        grid-template-columns: 1fr;
+        padding: 0;
+
+    }
+    #randomCocktailBtn{
+        margin: 2rem;;
+    }
+}
 
 #displayBody {
     display: grid;
@@ -116,3 +127,6 @@ input{
     align-items: center;
 }
 
+#displayBody:empty { 
+    display: none 
+}
