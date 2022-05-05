@@ -1,5 +1,5 @@
 const baseIngredientURL = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='
-const nameIngredientURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+const baseNameURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
 const displayBody = document.querySelector('#displayBody')
 
  function fetchRandomCocktail(){
@@ -11,18 +11,30 @@ const displayBody = document.querySelector('#displayBody')
 
  function fetchCocktailByIngredient(){
     const ingInput = document.querySelector('#ingredientInput').value
+    if(nameInput === ""){
+        errorHandler()
+    }
+    else{
      return fetch(`${baseIngredientURL}${ingInput}`)
-    .then(res => res.json())
+    .then(res =>  res.json())
     .then(data => { return data})
     .catch(errorHandler)
+        
+    } 
 }
 
- function fetchCocktailByName(){
+function fetchCocktailByName(){
     const nameInput = document.querySelector('#nameInput').value
-     return fetch(`${nameIngredientURL}${nameInput}`)
-    .then(res => res.json())
-    .then(data => {return data})
+    if(nameInput === ""){
+        errorHandler()
+    }
+    else{
+     return fetch(`${baseNameURL}${nameInput}`)
+     .then(res =>  res.json())
+    .then(data => { return data})
     .catch(errorHandler)
+    }      
+    
 }
 
 const ingSearchButton = document.querySelector('#ingSearchButton')
@@ -35,47 +47,59 @@ randomCocktailBtn.addEventListener('click', fetchRandomCocktail)
 async function ingredientResults(){
     clearDisplayBody();
     const data = await fetchCocktailByIngredient();
-    const results = data.drinks;
-    results.forEach(drink => {
+    if (data === undefined){
+        return;
+    }
+    else if (data.drinks === null){
+        errorHandler()
+    }
+    else {
+    let resultsHeader = document.createElement('h2')
+    resultsHeader.innerText = "Results"
+    displayBody.append(resultsHeader)
+    
+    data.drinks.forEach(drink => {
         let drinkDiv = document.createElement('div')
-        drinkDiv.classList.add('drinkDiv')
-
-        let drinkOption = document.createElement('h3')
-        drinkOption.classList.add('drinkOptionLink')
-        drinkOption.innerText = drink.strDrink
-        drinkDiv.append(drinkOption)
+        drinkDiv.setAttribute('id', 'drinkDiv')
+        drinkDiv.innerText = drink.strDrink
         displayBody.append(drinkDiv)
-        drinkOption.addEventListener('click',()=>{
-            displayDrinkInfoHelper(drink.idDrink)}
-            
+        drinkDiv.addEventListener('click',()=>{
+            displayDrinkInfoHelper(drink.idDrink)}      
         )
-        
-        
+          
     })
+    
     resetInputBoxes();
 
 }
+}
 async function nameResults(){
-    clearDisplayBody();
+    clearDisplayBody(); 
     const data = await fetchCocktailByName();
-    const results = data.drinks;
-    results.forEach(drink => {
+    if (data === undefined){
+        return;
+    }
+    else if (data.drinks === null){
+        errorHandler()
+    }
+    else{
+    let resultsHeader = document.createElement('h2')
+    resultsHeader.innerText = "Results"
+    displayBody.append(resultsHeader)
+    
+    data.drinks.forEach(drink => {
         let drinkDiv = document.createElement('div')
-        drinkDiv.classList.add('drinkDiv')
-
-        let drinkOption = document.createElement('h3')
-        drinkOption.classList.add('drinkOptionLink')
-        drinkOption.innerText = drink.strDrink
-        drinkDiv.append(drinkOption)
+        drinkDiv.setAttribute('id', 'drinkDiv')
+        drinkDiv.innerText = drink.strDrink
         displayBody.append(drinkDiv)
-        drinkOption.addEventListener('click',()=>{
+        drinkDiv.addEventListener('click',()=>{
             displayDrinkInfoHelper(drink.idDrink)}
             
         )
         
         
     })
-    
+    }
     resetInputBoxes();
     
 
@@ -99,17 +123,18 @@ function displayDrinkInfo(drink){
     clearDisplayBody()
     resetInputBoxes()
     const drinkInfo = drink.drinks[0]
+    
     const drinkTitle = document.createElement('h2')
     drinkTitle.innerText = drinkInfo.strDrink
-    displayBody.append(drinkTitle)
 
     const drinkImg = document.createElement('img')
+    const imgContainer = document.createElement('div');
     drinkImg.src = drinkInfo.strDrinkThumb
-    displayBody.append(drinkImg)
+    drinkImg.alt = `${drinkTitle.innerText}`
+    imgContainer.append(drinkImg);
 
     const ingredientList = document.createElement('ul');
     ingredientList.innerText = "Ingredients"
-    displayBody.append(ingredientList);
 
     for(let i =1; i < 15; i++){
       if(drinkInfo[`strIngredient${i}`] === null){
@@ -133,11 +158,12 @@ function displayDrinkInfo(drink){
     }
     const instructionsHeader = document.createElement('h3')
     instructionsHeader.innerText = "Instructions"
-    displayBody.append(instructionsHeader) 
+     
 
     const drinkInstructions = document.createElement('p')
     drinkInstructions.innerText = drinkInfo.strInstructions
-    displayBody.append(drinkInstructions)
+
+    displayBody.append(drinkTitle, imgContainer, ingredientList, instructionsHeader, drinkInstructions)
 }
 
 function resetInputBoxes(){
