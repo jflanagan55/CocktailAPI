@@ -1,16 +1,21 @@
 *{
     font-family: 'Mali', cursive;
-    background-color: #cac2b5;
+    background-color: #EEf0eb;
     color:black;
 }
 
 
 
 main{
-    display: grid;
+    /* display: grid;
     grid-template-columns: 1fr 1fr;
     padding:2rem;
-    gap: 3rem;
+    gap: 3rem; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding-top: 2rem;
+   
     
 }
 
@@ -20,7 +25,12 @@ main{
     padding:2rem;
     margin-bottom: 0;
     font-weight: 700;
+    text-align: center;
 
+}
+#user-input{
+    display: flex;
+    flex-direction: column;
 }
 
 .drinkOptionLink{
