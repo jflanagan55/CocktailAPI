@@ -1,47 +1,35 @@
 *{
     font-family: 'Mali', cursive;
-    background-color: #EEf0eb;
     color:black;
 }
 
-
-
-main{
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding:2rem;
-    gap: 3rem; */
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding-top: 2rem;
-   
-    
-}
-
-
-
-#header{
-    padding:2rem;
-    margin-bottom: 0;
-    font-weight: 700;
+h1{
     text-align: center;
+    color:aquamarine;
+}
+#user-input>*{
+    justify-content: center;
 
 }
 #user-input{
-    display: flex;
-    flex-direction: column;
+    max-width: 600px;
+    margin: auto;
 }
+
+
+
+
+
+
+
+
+
 
 .drinkOptionLink{
     text-align: center;
 }
 
-section {
-    display: flex;
-    flex-direction: column;
-    gap:2rem;
-}
+
 
 @media(max-width: 1050px){
     main{

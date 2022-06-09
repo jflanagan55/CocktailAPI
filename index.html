@@ -10,31 +10,56 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css" integrity="sha512-HqxHUkJM0SYcbvxUw5P60SzdOTy/QVwA1JJrvaXJv4q7lmbDZCmZaqz01UPOaQveoxfYRv1tHozWGPMcuTBuvQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <title>Cocktail App</title>
 </head>
 <body>
-        <h1 id="header">Cocktail Finder</h1>
+        <header>
+            <h1 class="title is-1 pt-4">Cocktail Finder</h1>
+        </header>
+
 
     
     <main>
-        <section id="user-input">
-            <div class="searchContainer">
-                <label for="ingredientInput">Search By Ingredient</label>
-                <input type = text id="ingredientInput" class="form-control-sm" placeholder="e.g. Vodka, Lemon, etc."/>
-                <button id="ingSearchButton" class = "btn btn-primary btn-lg">Go</button>
-            </div>
+        <section class="section is-small">
+            
+                <div class="box" id="user-input">
+                    
+                    <div class="field has-addons level" >
+                        <div class="control" >
+                            <input type = text id="ingredientInput" class="input" placeholder="Search by Ingredient"/>
+                        </div>
+                        <div class="control">
+                            <button id="ingSearchButton" class = "button is-info">Go</button>
+                        </div>  
+                    </div>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input type="text" id="nameInput" class="input" placeholder="Search by Name">
+                        </div>
+                        <div class="control">
+                            <button id="nameSearchButton" class = "button is-info">Go</button>
+                        </div>  
+                    </div>
+                    <div class="field has-addons">
+                        <button id="randomCocktailBtn" class = "button is-success">Generate Random Cocktail</button>
+                    </div>
 
-            <div class="searchContainer">
-                <label for="nameInput">Search Cocktail by Name</label>
-                <input type="text" id="nameInput" class="form-control-sm" placeholder="e.g. Martini">
-                <button id="nameSearchButton" class = "btn btn-primary btn-lg">Go</button>
-            </div>
-            <div>
-                <button id="randomCocktailBtn" class = "btn btn-primary btn-lg">Generate Random Cocktail</button>
+
+
+
+
+
+                    
+                </div>  
+                  
             </div>
         </section>
-
-        <div id="displayBody" class="card"></div>
-    </main> 
+            <div id="displayBody"></div>
+        
+    
+</main>
+ 
 </body>
 </html>
