@@ -1,7 +1,7 @@
 const baseIngredientURL =
   "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=";
 const baseNameURL = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=";
-const displayBody = document.querySelector("#displayBody");
+const displayBody = document.querySelector("#display-body");
 
 function fetchRandomCocktail() {
   fetch("https://www.thecocktaildb.com/api/json/v1/1/random.php")
@@ -63,6 +63,14 @@ nameInput.addEventListener("keypress", function (event) {
 const randomCocktailBtn = document.querySelector("#randomCocktailBtn");
 randomCocktailBtn.addEventListener("click", fetchRandomCocktail);
 
+
+function makeResultItem (title){
+    let link = document.createElement('a');
+    link.classList.add("panel-block")
+    link.classList.add('is-justify-content-center')
+    link.innerText = title;
+    return link;
+}
 async function ingredientResults() {
   clearDisplayBody();
   const data = await fetchCocktailByIngredient();
@@ -71,16 +79,11 @@ async function ingredientResults() {
   } else if (data.drinks === null) {
     errorHandler();
   } else {
-    let resultsHeader = document.createElement("h2");
-    resultsHeader.innerText = "Results";
-    displayBody.append(resultsHeader);
-
+      
     data.drinks.forEach((drink) => {
-      let drinkDiv = document.createElement("div");
-      drinkDiv.setAttribute("id", "drinkDiv");
-      drinkDiv.innerText = drink.strDrink;
-      displayBody.append(drinkDiv);
-      drinkDiv.addEventListener("click", () => {
+        let resultItem = makeResultItem(drink.strDrink);
+        displayBody.append(resultItem);
+        resultItem.addEventListener("click", () => {
         displayDrinkInfoHelper(drink.idDrink);
       });
     });
@@ -96,16 +99,10 @@ async function nameResults() {
   } else if (data.drinks === null) {
     errorHandler();
   } else {
-    let resultsHeader = document.createElement("h2");
-    resultsHeader.innerText = "Results";
-    displayBody.append(resultsHeader);
-
     data.drinks.forEach((drink) => {
-      let drinkDiv = document.createElement("div");
-      drinkDiv.setAttribute("id", "drinkDiv");
-      drinkDiv.innerText = drink.strDrink;
-      displayBody.append(drinkDiv);
-      drinkDiv.addEventListener("click", () => {
+        let resultItem = makeResultItem(drink.strDrink);
+        displayBody.append(resultItem);
+        resultItem.addEventListener("click", () => {
         displayDrinkInfoHelper(drink.idDrink);
       });
     });
@@ -183,11 +180,9 @@ function resetInputBoxes() {
 }
 
 function errorHandler() {
-  let resultsHeader = document.createElement("h2");
-  resultsHeader.innerText = "Results";
-
   let errorMessage = document.createElement("p");
+  errorMessage.classList.add("panel-block")
+  errorMessage.classList.add('is-justify-content-center')
   errorMessage.innerText = "Sorry no results, please try again!";
-
-  displayBody.append(resultsHeader, errorMessage);
+  displayBody.append(errorMessage);
 }

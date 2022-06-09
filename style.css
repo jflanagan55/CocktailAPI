@@ -11,11 +11,16 @@ h1{
     justify-content: center;
 
 }
-#user-input{
+#user-input, #results-box{
     max-width: 600px;
     margin: auto;
 }
-
+h2 {
+    text-align: center;
+}
+.panel-block{
+    justify-content: center;
+}
 
 
 
@@ -51,7 +56,7 @@ h1{
     }
 }
 
-#displayBody {
+/* #displayBody {
     display: grid;
     grid-template-columns: 1fr;
     max-width: 600px;
@@ -127,4 +132,4 @@ input{
 
 #displayBody:empty { 
     display: none 
-}
+} */
