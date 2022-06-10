@@ -61,8 +61,19 @@ nameInput.addEventListener("keypress", function (event) {
 });
 
 const randomCocktailBtn = document.querySelector("#randomCocktailBtn");
-randomCocktailBtn.addEventListener("click", fetchRandomCocktail);
+randomCocktailBtn.addEventListener("click", async()=>{
+    fetchRandomCocktail();
+    openModal();
+});
 
+function openModal(){
+    const modal = document.querySelector('.modal');
+    modal.classList.add('is-active')
+}
+function closeModal(){
+    const modal = document.querySelector('.modal');
+    modal.classList.remove('is-active')
+}
 
 function makeResultItem (title){
     let link = document.createElement('a');
@@ -124,22 +135,19 @@ function displayDrinkInfoHelper(drink) {
     .then((data) => displayDrinkInfo(data));
 }
 function displayDrinkInfo(drink) {
-  clearDisplayBody();
   resetInputBoxes();
   const drinkInfo = drink.drinks[0];
+  console.log(drinkInfo)
 
-  const drinkTitle = document.createElement("h2");
+  const drinkTitle = document.querySelector("#drink-title");
   drinkTitle.innerText = drinkInfo.strDrink;
 
-  const drinkImg = document.createElement("img");
-  const imgContainer = document.createElement("div");
-  drinkImg.src = drinkInfo.strDrinkThumb;
-  drinkImg.alt = `${drinkTitle.innerText}`;
-  imgContainer.append(drinkImg);
+  const drinkImage = document.querySelector("#drink-image");
+  drinkImage.src = drinkInfo.strDrinkThumb
+  drinkImage.alt = `${drinkTitle.innerText}`;
 
-  const ingredientList = document.createElement("ul");
-  ingredientList.innerText = "Ingredients";
 
+const ingContainer = document.querySelector('#ing-container')
   for (let i = 1; i < 15; i++) {
     if (drinkInfo[`strIngredient${i}`] === null) {
       break;
@@ -147,29 +155,21 @@ function displayDrinkInfo(drink) {
       if (drinkInfo[`strMeasure${i}`] === null) {
         let li = document.createElement("li");
         li.innerText = drinkInfo[`strIngredient${i}`];
-        ingredientList.append(li);
+        ingContainer.append(li);
       } else {
         let li = document.createElement("li");
         let measure = drinkInfo[`strMeasure${i}`];
         let ingredient = drinkInfo[`strIngredient${i}`];
         li.innerText = `${measure} ${ingredient}`;
-        ingredientList.append(li);
+        ingContainer.append(li);
       }
     }
   }
-  const instructionsHeader = document.createElement("h3");
-  instructionsHeader.innerText = "Instructions";
+  const directionContainer = document.querySelector("#direction-container");
+  directionContainer.innerText = drinkInfo.strInstructions;
 
-  const drinkInstructions = document.createElement("p");
-  drinkInstructions.innerText = drinkInfo.strInstructions;
+  const modal = document.querySelector('.modal');
 
-  displayBody.append(
-    drinkTitle,
-    imgContainer,
-    ingredientList,
-    instructionsHeader,
-    drinkInstructions
-  );
 }
 
 function resetInputBoxes() {
