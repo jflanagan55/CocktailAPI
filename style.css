@@ -5,24 +5,25 @@
 
 h1{
     text-align: center;
+    color: white;
 
 }
 #user-input>*{
     justify-content: center;
 }
-#user-input, #results-box{
+#user-input, .box{
     max-width: 600px;
     margin: auto;
 }
-h2 {
+h2, #direction-container {
     text-align: center;
 }
 .panel-block{
     justify-content: center;
 }
-#results-box{
+.box{
     max-height: 500px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 li{
@@ -38,13 +39,9 @@ li{
 img {
     max-width: 100%;
     max-height: 100%;
-    border-radius:2rem;
+    border-radius:1rem;
 
 }  
-.card{
-    border-radius:2rem;
-
-}
 
 
 
@@ -52,102 +49,18 @@ img {
     text-align: center;
 }
 
-
-
-@media(max-width: 1050px){
-    main{
-        display:grid;
-        grid-template-columns: 1fr;
-        padding:2rem;
-
-    }
-}
-@media(max-width: 470px){
-    main{
-        display:grid;
-        grid-template-columns: 1fr;
-        padding: 0;
-
-    }
-    #randomCocktailBtn{
-        margin: 2rem;;
-    }
+#results-box{
+    display: none;
 }
 
-/* #displayBody {
-    display: grid;
-    grid-template-columns: 1fr;
-    max-width: 600px;
-    justify-content: center;
-    max-height: 80vh; 
-    background-color: #3c474b;
-    border-radius: 1rem;
-    overflow: auto;
-    align-items: center;
-   
-    
+#body{
+    height: 100vh;
+    background: linear-gradient(to top,#183446,#9a969b);
 }
-#displayBody >*{
-    background-color: #3c474b;
-    text-align: center;
-    color:white;
-    padding: 0 1rem;
+#drink-image{
+    border: 2px solid rgba(0,0,0,0.5);
 }
-#displayBody >*>*{
-    background-color: #3c474b;
+.panel *:hover{
+    background: linear-gradient(to top,#183446,#9a969b)!important;
     color: white;
-
 }
-
-
-img{
-    max-width:200px;
-
-}
-
-li {
-    list-style-type: none;
-    font-size: 1rem;
-    
-}
-ul{
-    font-size: 2rem;
-    
-}
-
-.searchContainer{
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
-    
-
-}
-
-#randomCocktailBtn{
-    margin-top: 2rem;    
-}
-
-label{
-    font-size:1.5rem;
-    font-weight:500;
-}
-
-input{
-    background-color: white;
-}
-
-#drinkDiv:hover{
-    background-color: white;
-    color:  #3c474b;
-    cursor: pointer;
-}
-
-#drinkDiv {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#displayBody:empty { 
-    display: none 
-} */

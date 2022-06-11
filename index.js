@@ -38,8 +38,67 @@ function fetchCocktailByName() {
   }
 }
 
+function openModal() {
+    const modal = document.querySelector(".modal");
+    modal.classList.add("is-active");
+  }
+function closeModal() {
+    const modal = document.querySelector(".modal");
+    modal.classList.remove("is-active");
+  }
+function showResults() {
+  let results = document.querySelector("#results-box");
+  results.removeAttribute("id");
+}
+function resetInputBoxes() {
+    let ingSearch = document.querySelector("#ingredientInput");
+    let nameSearch = document.querySelector("#nameInput");
+    ingSearch.value = "";
+    nameSearch.value = "";
+  }
+  
+  function errorHandler() {
+    let errorMessage = document.createElement("p");
+    errorMessage.classList.add("panel-block");
+    errorMessage.classList.add("is-justify-content-center");
+    errorMessage.innerText = "Sorry no results, please try again!";
+    displayBody.append(errorMessage);
+  }
+  function clearDisplayBody() {
+    while (displayBody.firstChild) {
+      displayBody.removeChild(displayBody.firstChild);
+    }
+  }
+  function clearIngredientList() {
+    const ingContainer = document.querySelector("#ing-container");
+    while (ingContainer.firstChild) {
+      ingContainer.removeChild(ingContainer.firstChild);
+    }
+  }
+  
+
+
 const ingSearchButton = document.querySelector("#ingSearchButton");
-ingSearchButton.addEventListener("click", ingredientResults);
+ingSearchButton.addEventListener("click", async () => {
+  clearDisplayBody();
+  const data = await fetchCocktailByIngredient();
+  if (data === undefined) {
+    return;
+  } else if (data.drinks === null) {
+    errorHandler();
+  } else {
+    data.drinks.forEach((drink) => {
+      let resultItem = makeResultItem(drink.strDrink);
+      displayBody.append(resultItem);
+      resultItem.addEventListener("click", () => {
+        displayDrinkInfoHelper(drink.idDrink);
+      });
+    });
+
+    resetInputBoxes();
+    showResults();
+  }
+});
 
 const ingInput = document.querySelector("#ingredientInput");
 ingInput.addEventListener("keypress", function (event) {
@@ -50,7 +109,25 @@ ingInput.addEventListener("keypress", function (event) {
 });
 
 const nameSearchButton = document.querySelector("#nameSearchButton");
-nameSearchButton.addEventListener("click", nameResults);
+nameSearchButton.addEventListener("click", async () => {
+  clearDisplayBody();
+  const data = await fetchCocktailByName();
+  if (data === undefined) {
+    return;
+  } else if (data.drinks === null) {
+    errorHandler();
+  } else {
+    data.drinks.forEach((drink) => {
+      let resultItem = makeResultItem(drink.strDrink);
+      displayBody.append(resultItem);
+      resultItem.addEventListener("click", () => {
+        displayDrinkInfoHelper(drink.idDrink);
+      });
+    });
+  }
+  resetInputBoxes();
+  showResults();
+});
 
 const nameInput = document.querySelector("#nameInput");
 nameInput.addEventListener("keypress", function (event) {
@@ -61,70 +138,17 @@ nameInput.addEventListener("keypress", function (event) {
 });
 
 const randomCocktailBtn = document.querySelector("#randomCocktailBtn");
-randomCocktailBtn.addEventListener("click", async()=>{
+randomCocktailBtn.addEventListener("click", () => {
     fetchRandomCocktail();
-    openModal();
+  openModal();
 });
 
-function openModal(){
-    const modal = document.querySelector('.modal');
-    modal.classList.add('is-active')
-}
-function closeModal(){
-    const modal = document.querySelector('.modal');
-    modal.classList.remove('is-active')
-}
-
-function makeResultItem (title){
-    let link = document.createElement('a');
-    link.classList.add("panel-block")
-    link.classList.add('is-justify-content-center')
-    link.innerText = title;
-    return link;
-}
-async function ingredientResults() {
-  clearDisplayBody();
-  const data = await fetchCocktailByIngredient();
-  if (data === undefined) {
-    return;
-  } else if (data.drinks === null) {
-    errorHandler();
-  } else {
-      
-    data.drinks.forEach((drink) => {
-        let resultItem = makeResultItem(drink.strDrink);
-        displayBody.append(resultItem);
-        resultItem.addEventListener("click", () => {
-        displayDrinkInfoHelper(drink.idDrink);
-      });
-    });
-
-    resetInputBoxes();
-  }
-}
-async function nameResults() {
-  clearDisplayBody();
-  const data = await fetchCocktailByName();
-  if (data === undefined) {
-    return;
-  } else if (data.drinks === null) {
-    errorHandler();
-  } else {
-    data.drinks.forEach((drink) => {
-        let resultItem = makeResultItem(drink.strDrink);
-        displayBody.append(resultItem);
-        resultItem.addEventListener("click", () => {
-        displayDrinkInfoHelper(drink.idDrink);
-      });
-    });
-  }
-  resetInputBoxes();
-}
-
-function clearDisplayBody() {
-  while (displayBody.firstChild) {
-    displayBody.removeChild(displayBody.firstChild);
-  }
+function makeResultItem(title) {
+  let link = document.createElement("a");
+  link.classList.add("panel-block");
+  link.classList.add("is-justify-content-center");
+  link.innerText = title;
+  return link;
 }
 
 function displayDrinkInfoHelper(drink) {
@@ -136,18 +160,17 @@ function displayDrinkInfoHelper(drink) {
 }
 function displayDrinkInfo(drink) {
   resetInputBoxes();
+  clearIngredientList();
   const drinkInfo = drink.drinks[0];
-  console.log(drinkInfo)
 
   const drinkTitle = document.querySelector("#drink-title");
   drinkTitle.innerText = drinkInfo.strDrink;
 
   const drinkImage = document.querySelector("#drink-image");
-  drinkImage.src = drinkInfo.strDrinkThumb
+  drinkImage.src = drinkInfo.strDrinkThumb;
   drinkImage.alt = `${drinkTitle.innerText}`;
 
-
-const ingContainer = document.querySelector('#ing-container')
+  const ingContainer = document.querySelector("#ing-container");
   for (let i = 1; i < 15; i++) {
     if (drinkInfo[`strIngredient${i}`] === null) {
       break;
@@ -168,21 +191,7 @@ const ingContainer = document.querySelector('#ing-container')
   const directionContainer = document.querySelector("#direction-container");
   directionContainer.innerText = drinkInfo.strInstructions;
 
-  const modal = document.querySelector('.modal');
-
+  openModal();
 }
-
-function resetInputBoxes() {
-  let ingSearch = document.querySelector("#ingredientInput");
-  let nameSearch = document.querySelector("#nameInput");
-  ingSearch.value = "";
-  nameSearch.value = "";
-}
-
-function errorHandler() {
-  let errorMessage = document.createElement("p");
-  errorMessage.classList.add("panel-block")
-  errorMessage.classList.add('is-justify-content-center')
-  errorMessage.innerText = "Sorry no results, please try again!";
-  displayBody.append(errorMessage);
-}
+const overlay = document.querySelector(".modal-background");
+overlay.addEventListener("click", closeModal);
