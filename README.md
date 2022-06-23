@@ -1,1 +1,1 @@
-# CocktailAPI
+Cocktail API project that allows for user to search for a cocktail by ingredient or name, as well as generate a random cocktail. This project really helped to solidify the fundamentals for DOM manipulation (selecting and manipulating elements, removing/adding classes, adding event listeners). Additionally, this project allowed me to gain familiarity with async javascript/promises which taught how to identify when to reach for asynchronous javascript. For example, moving forward I now know to use async/promises when fetching data that could take time.  
